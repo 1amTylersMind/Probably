@@ -65,10 +65,14 @@ def visualize_experiment(games, heads, tails):
 
 
 def main():
-    # I want to watch how the distribution of heads and tails,
-    # for a simulated coinflip, will evolve over time.
-    # The Question is ... will it converge?
+    """
+    I want to watch how the distribution of heads and tails,
+    for a simulated coinflip, will evolve over time.
+    The Question is ... will it converge?
+    """
+
     mem_before_experiment = check_mem_usage()
+
     print str(float(mem_before_experiment * 1000) / 1000000) + " Mb Used (Total)"
 
     flips = [25,50,80,150,250,575,750,875,1000,2000,3000,4000,5000,7500,10000,
@@ -76,8 +80,11 @@ def main():
     games, heads, tails= coin_flip_experiment(flips)
 
     mem_after_experiment = check_mem_usage()
+
     print str(float(mem_after_experiment * 1000) / 1000000) + " Mb Used (Total)"
+
     mem_used = mem_after_experiment - mem_before_experiment
+
     print str(np.sum(np.array(flips)))+" Coin Flips Simulated [" + \
           str(float(1000*mem_used/1000000)) + " kb of RAM used]"
 

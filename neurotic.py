@@ -1,4 +1,4 @@
-import os, sys, resource, numpy as np, networkx as nx
+import os, sys, resource, networkx as nx
 import matplotlib.pyplot as plt
 
 
@@ -49,15 +49,22 @@ def dfs(graph, start):
 
 
 def trace2graph(trace):
-
+    graph = {}
     Hop = 0
     for hop in trace:
-        nodes = []
         try:
-            print trace[Hop - 1]+" > "+hop
+            graph[hop] = [trace[Hop - 1], hop]
+            Hop += 1
         except IndexError:
             pass
-        Hop += 1
+
+    g = nx.Graph()
+    for node in graph:
+        g.add_node(node)
+        for edge in graph[node]:
+            g.add_edge(node,edge)
+    nx.draw(g,with_labels=True)
+    plt.show()
 
 
 def axion():
@@ -71,7 +78,7 @@ def axion():
              'F': ['C'],
              'G': ['C']}
     for node in graph:
-        g.add_nodes_from(node)
+        g.add_node(node)
         for edge in graph[node]:
             g.add_edge(node, edge)
 
@@ -124,13 +131,14 @@ def main():
         print "Initial Memory Overhead is: " + str(check_mem_usage()/1000)+' Kb'
 
     if '-iMap' in sys.argv:
-        os.system('python simple_trace.py -manual 8.8.8.8 >> goog.txt')
+        os.system('python simple_trace.py -manual '+sys.argv[2]+' >> goog.txt')
         trace2goog = swap('goog.txt',True)
         print trace2goog.pop(len(trace2goog)-1)
         trace2graph(trace2goog)
 
-    # Example of a little network
-    axi, simple_synapse = axion()
+    if '-example' in sys.argv:
+        # Example of a little network
+        axi, simple_synapse = axion()
 
     if mem_aware:
         print "::: " + str(check_mem_usage() / 1000) + " Kb of RAM Used :::"

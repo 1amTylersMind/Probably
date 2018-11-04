@@ -17,7 +17,7 @@ def trace(dest):
     hop = 1
     for line in raw_trace:
         try:
-            trace[hop] = line.split(str(hop)+' ')[1].split(' (')[0].replace(' * ','')
+            trace[hop] = line.split(str(hop)+' ')[1].split(' (')[0].replace('* ','')
             print trace[hop]
             hop += 1
         except IndexError:

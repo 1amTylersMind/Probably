@@ -33,6 +33,7 @@ def kmeans(imat):
     ax[2].imshow(seg)
     ax[2].set_xlabel('KMeans Segments')
     plt.show()
+    return seg
 
 
 def create_grid():
@@ -91,14 +92,15 @@ def main():
             plt.show()
         except IndexError:
             exit(0)
-        kmeans(plt.imread(sys.argv[2]))
+            s = kmeans(plt.imread(sys.argv[2]))
+            print s
     if '-grid' in sys.argv:
         matrix = create_grid()
         kmeans(matrix)
     if '-test' in sys.argv:
         matrix = create_swarm()
         print matrix.shape
-        kmeans(matrix)
+        s = kmeans(matrix)
 
 
 if __name__ == '__main__':

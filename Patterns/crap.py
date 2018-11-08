@@ -58,16 +58,25 @@ def decrypt_text_file(fnamein, fnameout, password, iV, destroy):
     open(fnameout,'w').write(clear_text)
 
 
-mem_overhead = check_mem_usage()
-print str(float(mem_overhead)/1000) + " kilobytes in RAM overhead"
+def example():
+    # Example of encrypting the contents of a text file (without deleting original)
+    IV = encrypt_txt_file('example.txt', 'encrypted_example.txt', False, '5up3Rwe1Rd5417d00d')
+    # Example of Decrypting previously created file
+    decrypt_text_file('encrypted_example.txt', 'decrypted_example.txt', '5up3Rwe1Rd5417d00d', IV, False)
+    print "_______________________________________________________________________________________"
+    os.system('cat encrypted_example.txt')
+    print "\n_______________________________________________________________________________________"
+    os.system('cat decrypted_example.txt')
+    print "\n_______________________________________________________________________________________"
+    os.system('cmp example.txt decrypted_example.txt')
 
-# Example of encrypting the contents of a text file (without deleting original)
-IV = encrypt_txt_file('example.txt', 'encrypted_example.txt', False, '5up3Rwe1Rd5417d00d')
-# Example of Decrypting previously created file
-decrypt_text_file('encrypted_example.txt','decrypted_example.txt','5up3Rwe1Rd5417d00d',IV,False)
-print "_______________________________________________________________________________________"
-os.system('cat encrypted_example.txt')
-print "\n_______________________________________________________________________________________"
-os.system('cat decrypted_example.txt')
-print "\n_______________________________________________________________________________________"
-os.system('cmp example.txt decrypted_example.txt')
+
+def main():
+    mem_overhead = check_mem_usage()
+    print str(float(mem_overhead) / 1000) + " kilobytes in RAM overhead"
+
+    example()
+
+
+if __name__ == '__main__':
+    main()

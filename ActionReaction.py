@@ -54,28 +54,28 @@ class agent:
                 u = self.motion_percept['U']
                 up = moves[u[0], u[1]]
                 self.position_weights['U'] = up
-            except IndexError:
+            except IndexError and KeyError:
                 pass
         if y-1 >=0:
             try:
                 dwn = self.motion_percept['D']
                 down = moves[dwn[0], dwn[1]]
                 self.position_weights['D'] = down
-            except IndexError:
+            except IndexError and KeyError:
                 pass
         if x-1>=0:
             try:
                 lft = self.motion_percept['L']
                 left = moves[lft[0], lft[1]]
                 self.position_weights['L'] = left
-            except IndexError:
+            except IndexError and KeyError:
                 pass
         if x+1 <= self.Map.manifold.shape[0]:
             try:
                 rt = self.motion_percept['R']
                 right = moves[rt[0], rt[1]]
                 self.position_weights['R'] = right
-            except IndexError:
+            except IndexError and KeyError:
                 pass
 
         for key in self.position_weights:
@@ -102,7 +102,7 @@ class space:
         # Populate the manifold of space
         dx = abs(x1-x0)
         dy = abs(y1-y0)
-        self.manifold = np.random.randint(0,255,dx*dy,dtype=int).reshape((dx,dy)) > mixture
+        self.manifold = np.random.randint(0,255,dx*dy,dtype=int).reshape((dx,dy)) < mixture
         # Create a map  of neighbor density for an agent to navigate
         self.agent_density = ndi.convolve(np.array(self.manifold, dtype=int), neighb, origin=0)
 
@@ -120,7 +120,7 @@ class space:
         visited = []
         visited.append(position)
         while goal not in visited and steps < 10:
-            next = ai.crawl_space([50, 50])
+            next = ai.crawl_space([10, 10])
             position = ai.motion_percept[next]
             print "New Position @ " + str(position)
             visited.append(next)
@@ -143,11 +143,11 @@ def main():
     # dense_void = space(0, 100, 0, 100, 70, True)
     print "Initial Memory Usage "+str(check_mem_usage()/1000)+" Kb"
     # Sparse Space
-    mostly_empty = space(0, 100, 0, 100, 200, True)
+    mostly_empty = space(0, 100, 0, 100, 220, True)
     print "** Space Created!\n[RAM Used: " + str(check_mem_usage() / 1000) + " Kb]"
     # Create an agent to navigate a space
-    position = [1,5]
-    target = [50,50]
+    position = [10,0]
+    target = [10,10]
     ai = agent(position,mostly_empty.manifold[0,0],mostly_empty)
     ai.summary()
     print "AI Agent created in Space!\n[RAM Used: " + str(check_mem_usage() / 1000) + " Kb]"

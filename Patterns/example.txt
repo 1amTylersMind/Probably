@@ -1,0 +1,9 @@
+This is a simple example of a text file to be encrypted. 
+It has some weird indentations, along with punctuation (hopefully some 
+special characters too); in stupid places. This is in part to confirm that
+decryption is accurate, but also to make sure text won't break anything in
+the code...
+3.14159265358979323846264338327950288
+BLEEP BLOOP BLOOP I AM A ROBOT
+
+
